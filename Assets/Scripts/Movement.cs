@@ -1,17 +1,51 @@
+using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Movement : MonoBehaviour
 {
-    private int screenWidth = Screen.width;
+    [SerializeField] private float jumpTime;
+    [SerializeField] private Transform jumpTargetLeft;
+    [SerializeField] private Transform jumpTargetRight;
 
-    private void JumpLeft()
+    private Rigidbody2D myRigidbody;
+
+    private int screenWidth = Screen.width;
+    private Coroutine jumpCoroutine = null;
+
+    private void Start()
     {
-        Debug.Log("Left");
+        myRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    private void JumpRight()
+    private void Jump(bool directionRight)
     {
-        Debug.Log("Right");
+        if (jumpCoroutine == null)
+            jumpCoroutine = StartCoroutine(JumpCoroutine(directionRight));
+    }
+
+    private IEnumerator JumpCoroutine(bool directionRight)
+    {
+        myRigidbody.simulated = false;
+
+        Vector2 startPosition = transform.position;
+        Vector2 targetPosition = directionRight ? jumpTargetRight.position : jumpTargetLeft.position;
+
+        float timeElapsed = 0;
+        float t;
+
+        while (timeElapsed < jumpTime)
+        {
+            t = timeElapsed / jumpTime;
+            transform.position = new Vector2(Mathf.Lerp(startPosition.x, targetPosition.x, t * t),
+                Mathf.Lerp(startPosition.y, targetPosition.y, t));   // Parabolic movement
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = targetPosition;
+
+        myRigidbody.simulated = true;
+        jumpCoroutine = null;
     }
 
     private void Update()
@@ -33,11 +67,11 @@ public class Movement : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             if (touch.position.x > screenWidth / 2)
             {
-                JumpRight();
+                Jump(true);
             }
             else
             {
-                JumpLeft();
+                Jump(false);
             }
         }
     }
@@ -48,11 +82,11 @@ public class Movement : MonoBehaviour
         {
             if (Input.mousePosition.x > screenWidth / 2)
             {
-                JumpRight();
+                Jump(true);
             }
             else
             {
-                JumpLeft();
+                Jump(false);
             }
         }
     }
