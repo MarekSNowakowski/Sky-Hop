@@ -541,18 +541,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 845417865174713657, guid: 6e8578f1cf62c8243bd349853590808c, type: 3}
-      propertyPath: shiftStep
-      value: 1.625
-      objectReference: {fileID: 0}
-    - target: {fileID: 845417865174713657, guid: 6e8578f1cf62c8243bd349853590808c, type: 3}
-      propertyPath: distanceStep
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 845417865174713657, guid: 6e8578f1cf62c8243bd349853590808c, type: 3}
-      propertyPath: initialRowsToGenerate
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 3940038106998687178, guid: 6e8578f1cf62c8243bd349853590808c, type: 3}
       propertyPath: m_Name
       value: PlatformGenerator
@@ -610,17 +598,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 936711958, guid: 3ad296a37c7ee0745a837f07b06bbcdb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.625
-      objectReference: {fileID: 0}
     - target: {fileID: 1241853901, guid: 3ad296a37c7ee0745a837f07b06bbcdb, type: 3}
-      propertyPath: jumpTime
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2068236106, guid: 3ad296a37c7ee0745a837f07b06bbcdb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.625
+      propertyPath: jumpDelay
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 133533860563659277, guid: 3ad296a37c7ee0745a837f07b06bbcdb, type: 3}
       propertyPath: m_Name

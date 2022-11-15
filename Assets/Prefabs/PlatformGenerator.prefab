@@ -51,7 +51,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformObject: {fileID: 3764848037422830175, guid: cb46a1bc929134c48a4654227eba2336, type: 3}
   cloudObject: {fileID: 3764848037422830175, guid: 5bf8c3e5b49d6554fa78601deac65130, type: 3}
-  distanceStep: 0
+  distanceStep: 2.5
+  shiftStep: 1.625
+  additionalPlatformChance: 0.1
+  initialRowsToGenerate: 5
 --- !u!1 &5529989601276459774
 GameObject:
   m_ObjectHideFlags: 0

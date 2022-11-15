@@ -5,6 +5,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     [SerializeField] private float jumpTime;
+    [SerializeField] private float jumpDelay;
     [SerializeField] private Transform jumpTargetLeft;
     [SerializeField] private Transform jumpTargetRight;
 
@@ -18,6 +19,7 @@ public class Movement : MonoBehaviour
     private void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
+        screenWidth = Screen.currentResolution.width;
     }
 
     private void Jump(bool directionRight)
@@ -50,6 +52,7 @@ public class Movement : MonoBehaviour
         transform.position = targetPosition;
 
         myRigidbody.simulated = true;
+        yield return new WaitForSeconds(jumpDelay);
         jumpCoroutine = null;
     }
 
