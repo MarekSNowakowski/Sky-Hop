@@ -24,6 +24,16 @@ public class PlatformGenerator : MonoBehaviour
             GeneratePlatformBatch();
     }
 
+    private void OnEnable()
+    {
+        Movement.OnJump += GeneratePlatformBatch;
+    }
+
+    private void OnDisable()
+    {
+        Movement.OnJump -= GeneratePlatformBatch;
+    }
+
     public void GeneratePlatformBatch()
     {
         int rowsToGenerate = evenRow ? transform.childCount - 1 : transform.childCount;
