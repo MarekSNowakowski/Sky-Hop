@@ -13,6 +13,8 @@ public class Movement : MonoBehaviour
     private int screenWidth = Screen.width;
     private Coroutine jumpCoroutine = null;
 
+    public static event System.Action OnJump;
+
     private void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -21,7 +23,10 @@ public class Movement : MonoBehaviour
     private void Jump(bool directionRight)
     {
         if (jumpCoroutine == null)
+        {
             jumpCoroutine = StartCoroutine(JumpCoroutine(directionRight));
+            OnJump?.Invoke();
+        }
     }
 
     private IEnumerator JumpCoroutine(bool directionRight)
