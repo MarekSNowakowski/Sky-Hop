@@ -55,7 +55,7 @@ public class PlatformGenerator : MonoBehaviour
     {
         if (platformIndex == 0)
             platformIndex++;
-        else if (platformIndex == rowsToGenerate)
+        else if (platformIndex == (evenRow ? rowsToGenerate : rowsToGenerate - 1))
             platformIndex--;
         else
         {
