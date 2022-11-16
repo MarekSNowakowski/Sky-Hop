@@ -6,6 +6,8 @@ public class GameplayManager : MonoBehaviour
     [SerializeField][Min(1)] private float timeLeft;
     [SerializeField][Min(0)] private float timeGain;
 
+    [SerializeField] GUIController gUIController;
+
     private int score;
     private int points;
 
@@ -48,11 +50,13 @@ public class GameplayManager : MonoBehaviour
     {
         score++;
         timeLeft += timeGain;
+        gUIController.UpdateScore(score);
     }
 
     public void AddPoint()
     {
         points++;
+        gUIController.UpdatePoints(points);
     }
 
     public void AddTime(float amount)
