@@ -34,32 +34,40 @@ public class PlatformGenerator : MonoBehaviour
 
     public void GeneratePlatformBatch()
     {
-        int rowsToGenerate = evenRow ? transform.childCount - 1 : transform.childCount;
+        int elementsToGenerate = evenRow ? transform.childCount - 1 : transform.childCount;
 
-        for (int i = 0; i < rowsToGenerate; i++)
+        for (int i = 0; i < elementsToGenerate; i++)
         {
+            // Determine if platform should be generated
             bool generateAdditionalPlatform = (i != 0 && i == platformIndex - 1 && Random.value < additionalPlatformChance)
-                || (i != rowsToGenerate && i == platformIndex + 1 && Random.value < additionalPlatformChance);
-            bool generatePlatform = i == platformIndex || generateAdditionalPlatform;      // Determine if platform should be generated
+                || (i != elementsToGenerate && i == platformIndex + 1 && Random.value < additionalPlatformChance);  // Platforms not on the path
+            bool generatePlatform = i == platformIndex || generateAdditionalPlatform;      
 
             Vector2 platformPosition = transform.GetChild(i).transform.position;
 
+            // Generate platforms and clouds
             if (transform.GetChild(i).gameObject.activeInHierarchy)
                 Instantiate(generatePlatform ? platformObject : cloudObject, platformPosition, Quaternion.identity);
-            if (generateAdditionalPlatform && Random.value < bonusChance)
-                GenerateBonus(platformPosition);
+
+            // Generate bonus (time or coin)
+            bool generateBonus = generatePlatform && Random.value < bonusChance * (generateAdditionalPlatform ? 2 : 1); // Double chance for loot on bonus platform
+            if (generateBonus)  
+                GenerateBonus(platformPosition);    
         }
 
         transform.position = new Vector2(transform.position.x + (evenRow ? -shiftStep : shiftStep), transform.position.y + distanceStep);
-        ChangePlatformIndex(rowsToGenerate);
+        ChangePlatformIndex(elementsToGenerate);
         evenRow = !evenRow;
     }
 
-    private void ChangePlatformIndex(int rowsToGenerate)
+    /// <summary>
+    /// Change next row's position of main platform assuring there's a constant path
+    /// </summary>
+    private void ChangePlatformIndex(int elementsToGenerate)
     {
         if (platformIndex == 0)
             platformIndex++;
-        else if (platformIndex == (evenRow ? rowsToGenerate : rowsToGenerate-1))
+        else if (platformIndex == (evenRow ? elementsToGenerate : elementsToGenerate - 1))
             platformIndex--;
         else
         {
@@ -78,6 +86,7 @@ public class PlatformGenerator : MonoBehaviour
 
     private void GenerateBonus(Vector2 platformPosition)
     {
-        Instantiate(Random.value < 0.5f ? coinObject : clockObject, new Vector2(platformPosition.x, platformPosition.y + verticalBonusShift), Quaternion.identity);
+        Instantiate(Random.value < 0.5f ? coinObject : clockObject,
+            new Vector2(platformPosition.x, platformPosition.y + verticalBonusShift), Quaternion.identity);
     }
 }
