@@ -20,12 +20,15 @@ public class Movement : MonoBehaviour
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         screenWidth = Screen.currentResolution.width;
+        Time.timeScale = 0; // Wait till first jump
     }
 
     private void Jump(bool directionRight)
     {
         if (jumpCoroutine == null)
         {
+            if (Time.timeScale == 0)
+                Time.timeScale = 1;
             jumpCoroutine = StartCoroutine(JumpCoroutine(directionRight));
             OnJump?.Invoke();
         }

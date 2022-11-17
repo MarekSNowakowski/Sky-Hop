@@ -15,6 +15,7 @@ public class PlatformGenerator : MonoBehaviour
 
     private bool evenRow = false;
     private int platformIndex = 2;
+    private int rowIndex = 0;
 
     private void Start()
     {
@@ -50,7 +51,8 @@ public class PlatformGenerator : MonoBehaviour
                 Instantiate(generatePlatform ? platformObject : cloudObject, platformPosition, Quaternion.identity);
 
             // Generate bonus (time or coin)
-            bool generateBonus = generatePlatform && Random.value < bonusChance * (generateAdditionalPlatform ? 2 : 1); // Double chance for loot on bonus platform
+            bool generateBonus = generatePlatform && rowIndex != 0 &&
+                Random.value < bonusChance * (generateAdditionalPlatform ? 2 : 1); // Double chance for loot on bonus platform
             if (generateBonus)  
                 GenerateBonus(platformPosition);    
         }
@@ -58,6 +60,7 @@ public class PlatformGenerator : MonoBehaviour
         transform.position = new Vector2(transform.position.x + (evenRow ? -shiftStep : shiftStep), transform.position.y + distanceStep);
         ChangePlatformIndex(elementsToGenerate);
         evenRow = !evenRow;
+        rowIndex++;
     }
 
     /// <summary>
